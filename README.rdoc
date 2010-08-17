@@ -1,0 +1,37 @@
+== enum_attr plugin
+
+主要应用于有枚举类型属性的Model，这个插件会帮我们生成一些常用到的方法。
+
+如：枚举数组常量，每个元素的常量和布尔方法，属性的名字，Named scope方法
+
+
+== Usage
+
+  class User < ActiveRecord::Base
+    enum_attr :status, [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
+  end
+  
+  Will generate bellow:
+  
+    Constants: User::ENUMS_STATUS, User::STATUS_DISABLE, User::STATUS_ENABLE
+    
+    Named scope: User.enable, User.disable
+    
+    Instance method: user.status_name, user.enable?, user.disable?
+    
+    
+  If with option prefix is true: 
+    
+    User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
+
+
+== Install
+
+  git clone http://github.com/wenke/enum_attr.git OR
+  
+  ./script/plugin install git://github.com/wenke/enum_attr.git
+
+
+== Note
+
+Copyright (c) 2010 liangwenke8@gmail.com, released under the MIT license
