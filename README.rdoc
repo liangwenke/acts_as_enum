@@ -13,21 +13,24 @@
   
   Will generate bellow:
   
-    Constants: User::ENUMS_STATUS, User::STATUS_DISABLE, User::STATUS_ENABLE
+    Constants: User::ENUMS_STATUS, User::DISABLE, User::ENABLE
     
     Named scope: User.enable, User.disable
     
     Instance method: user.status_name, user.enable?, user.disable?
     
     
-  If with option prefix is true: 
+    If with option prefix is true: 
+      enum_attr :status, [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ], :prefix => true
+      
+    Will generate bellow:
     
-    User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
+      User::STATUS_DISABLE, User::STATUS_ENABLE, User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
 
 
 == Install
 
-  git clone http://github.com/wenke/enum_attr.git OR
+  git clone git://github.com/wenke/enum_attr.git OR
   
   ./script/plugin install git://github.com/wenke/enum_attr.git
 
