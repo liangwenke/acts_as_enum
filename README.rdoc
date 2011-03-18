@@ -4,6 +4,7 @@
 
 如：枚举数组常量，每个元素的常量和布尔方法，属性的名字，Named scope方法
 
+Support rails 3
 
 == Usage
 
@@ -15,9 +16,11 @@
   
     Constants: User::ENUMS_STATUS, User::DISABLE, User::ENABLE
     
-    Named scope: User.enable, User.disable
+    Named scopes: User.enable, User.disable
+
+    Class methods: User.status_options
     
-    Instance method: user.status_name, user.enable?, user.disable?
+    Instance methods: user.status_name, user.enable?, user.disable?
     
     
     If with option prefix is true: 
