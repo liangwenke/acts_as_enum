@@ -35,7 +35,11 @@ Support rails 3
 
   git clone git://github.com/wenke/enum_attr.git OR
   
+  rails 2
   ./script/plugin install git://github.com/wenke/enum_attr.git
+
+  rails 3
+  rails plugin install git://github.com/wenke/enum_attr.git
 
 
 == Note
