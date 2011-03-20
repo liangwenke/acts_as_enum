@@ -6,7 +6,7 @@
 #    
 #    Will generate bellow:
 #    
-#      Constants: User::ENUMS_STATUS(return hash { 0 => "冻结", 1 => "激活" }), User::DISABLE, User::ENABLE
+#      Constants: User::STATUSES(return hash { 0 => "冻结", 1 => "激活" }), User::DISABLE, User::ENABLE
 #      
 #      Named scopes: User.enable, User.disable
 #
@@ -29,13 +29,14 @@ module EnumAttr
   module ClassMethods
     def enum_attr(attr, enums, options = { :prefix => false })
       attr = attr.to_s
+      plural_upcase_attr = attr.pluralize.upcase
       
       validates_inclusion_of attr, :in => enums.collect { |enum| enum[1] }, :allow_blank => true
       
       # This code will return a Array object [["冻结", 0], ["激活", 1]]
-      # const_set("enums_#{attr}".upcase, enums.collect { |enum| [enum[2].to_s, enum[1]] })
+      # const_set(plural_upcase_attr, enums.collect { |enum| [enum[2].to_s, enum[1]] })
       # This code will return a Hash object { 0 => "冻结", 1 => "激活" }
-      const_set("enums_#{attr}".upcase, enums.inject({}) { |hash, enum| hash[enum[1]] = enum[2].to_s; hash })
+      const_set(plural_upcase_attr, enums.inject({}) { |hash, enum| hash[enum[1]] = enum[2].to_s; hash })
       
       enums.each do |enum|
         enum_name, attr_value = enum[0].to_s, enum[1]
@@ -54,12 +55,12 @@ module EnumAttr
         
       class_eval(%Q{
         def self.#{attr}_options
-          ENUMS_#{attr.upcase}.inject([]){ |arr, obj| arr << obj.reverse }
+          #{plural_upcase_attr}.inject([]){ |arr, obj| arr << obj.reverse }
         end
         
         def #{attr}_name
-          # ENUMS_#{attr.upcase}.detect { |enum| enum[1] == #{attr} }[0] unless #{attr}.blank?
-          ENUMS_#{attr.upcase}[#{attr}] unless #{attr}.blank?
+          # #{plural_upcase_attr}.detect { |enum| enum[1] == #{attr} }[0] unless #{attr}.blank?
+          #{plural_upcase_attr}[#{attr}] unless #{attr}.blank?
         end
       })
     end
