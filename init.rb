@@ -1,1 +1,1 @@
-require 'enum_attr'
+require 'acts_as_enum'

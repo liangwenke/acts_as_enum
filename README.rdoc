@@ -1,4 +1,4 @@
-== enum_attr plugin
+== ActsAsEnum
 
 主要应用于有枚举类型属性的Model，这个插件会帮我们生成一些常用到的方法。
 
@@ -9,8 +9,12 @@ Support rails 3
 == Usage
 
   class User < ActiveRecord::Base
-    enum_attr :status, [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
+    acts_as_enum :status, :enum => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
   end
+
+  Also can usage alias enum_attr
+  enum_attr :status, :enum => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
+
   
   Will generate bellow:
   
@@ -24,7 +28,7 @@ Support rails 3
     
     
     If with option prefix is true: 
-      enum_attr :status, [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ], :prefix => true
+      acts_as_enum :status, :enum => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ], :prefix => true
       
     Will generate bellow:
     
@@ -33,13 +37,13 @@ Support rails 3
 
 == Install
 
-  git clone git://github.com/wenke/enum_attr.git OR
+  git clone git://github.com/wenke/acts_as_enum.git OR
   
   rails 2
-  ./script/plugin install git://github.com/wenke/enum_attr.git
+  ./script/plugin install git://github.com/wenke/acts_as_enum.git
 
   rails 3
-  rails plugin install git://github.com/wenke/enum_attr.git
+  rails plugin install git://github.com/wenke/acts_as_enum.git
 
 
 == Note

@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :enum_attr do
+# task :acts_as_enum do
 #   # Task goes here
 # end
