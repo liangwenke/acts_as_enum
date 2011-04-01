@@ -74,7 +74,7 @@ module ActsAsEnum
       })
     end
     
-    alias enum_attr acts_as_enum
+    # alias enum_attr acts_as_enum
   end
   
 end

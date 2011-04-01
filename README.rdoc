@@ -6,6 +6,7 @@
 
 Support rails 3
 
+
 == Usage
 
   class User < ActiveRecord::Base
