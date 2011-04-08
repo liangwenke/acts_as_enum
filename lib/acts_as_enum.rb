@@ -57,7 +57,7 @@ module ActsAsEnum
         
         class_eval(%Q{
           def #{method_name}?
-            #{attr} == #{attr_value}
+            #{attr}.to_s == #{attr_value}.to_s
           end
         })
       end
