@@ -39,7 +39,7 @@ module ActsAsEnum
       rails "Options enum can not be empty" if enum.blank?
       rails "Options enum must be an array object" unless enum.is_a?(Array)
       
-      validates_inclusion_of attr, :in => enum.collect { |arr| arr[1] }, :allow_blank => true
+      # validates_inclusion_of attr, :in => enum.collect { |arr| arr[1] }, :allow_blank => true
 
       const_set(plural_upcase_attr, enum.inject({}) { |hash, arr| hash[arr[1]] = arr[2].to_s; hash })
       
