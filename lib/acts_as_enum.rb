@@ -1,25 +1,29 @@
 # EnumAttr#  == Example
-#
+# 
+#    acts_as_enum(attr, options)
+#    attr is model attribute
+#    options incldue :in, :prefix
+# 
 #    class User < ActiveRecord::Base
-#      acts_as_enum :status, :enum => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
+#      acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
 #    end
-#
+# 
 #    Also can usage alias enum_attr
-#    enum_attr :status, :enum => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
+#    enum_attr :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
 #    
 #    Will generate bellow:
 #    
 #      Constants: User::STATUSES(return hash { 0 => "冻结", 1 => "激活" }), User::DISABLE, User::ENABLE
 #      
 #      Named scopes: User.enable, User.disable
-#
+# 
 #      Class methods: User.status_options => [["冻结", 0], ["激活", 1]] 
-#
+# 
 #      Instance methods: user.status_name, user.enable?, user.disable?
 #      
 #      
 #    If with option prefix is true: 
-#      acts_as_enum :status, :enum => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ], :prefix => true
+#      acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ], :prefix => true
 #      
 #    Will generate bellow:
 #      User::STATUS_DISABLE, User::STATUS_ENABLE, User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
@@ -30,14 +34,14 @@ module ActsAsEnum
   end
   
   module ClassMethods
-    def acts_as_enum(attr, opts = { :enum => [], :prefix => false })
+    def acts_as_enum(attr, opts = { :in => [], :prefix => false })
       attr = attr.to_s
       plural_upcase_attr = attr.pluralize.upcase
-      enum = opts[:enum]
+      enum = opts[:in]
       
       rails "Can not load Rails" unless defined?(Rails)
-      rails "Options enum can not be empty" if enum.blank?
-      rails "Options enum must be an array object" unless enum.is_a?(Array)
+      rails "Options in can not be empty" if enum.blank?
+      rails "Options in must be an array object" unless enum.is_a?(Array)
       
       # validates_inclusion_of attr, :in => enum.collect { |arr| arr[1] }, :allow_blank => true
 
@@ -74,9 +78,8 @@ module ActsAsEnum
       })
     end
     
-    # alias enum_attr acts_as_enum
+    alias enum_attr acts_as_enum
   end
-  
 end
 
 ActiveRecord::Base.send(:include, ActsAsEnum)

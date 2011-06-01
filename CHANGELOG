@@ -8,4 +8,8 @@
   Fixed a bug
 
 0.1.3
-  comment the validation method validates_inclusion_of
+  Comment the validation method validates_inclusion_of
+
+0.2.0
+  Add alias method enum_attr for acts_as_enum
+  Rename acts_as_enum options :enum to :in
