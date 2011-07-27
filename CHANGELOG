@@ -14,5 +14,5 @@
   Add alias method enum_attr for acts_as_enum
   Rename acts_as_enum options :enum to :in
 
-1.0.0
+1.0.1
  Options :in value is Array, can be have two or three elements
