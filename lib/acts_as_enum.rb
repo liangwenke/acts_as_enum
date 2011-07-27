@@ -3,9 +3,21 @@
 #    acts_as_enum(attr, options)
 #    attr is model attribute
 #    options incldue :in, :prefix
+#    :in value as Array [ [value, label], ... ] or [ [special_method_name, value, label], ... ]
+#    :prefix value as true or false
 # 
+#    table column status type is Varchar or Varchar2
+#    class User < ActiveRecord::Base
+#      acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
+#    end
+#
+#    and type is Integer or number of string
+#    NOTE: table column value must be match type, i.e. varchar: '1'; integer: 1
 #    class User < ActiveRecord::Base
 #      acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
+#    end
+#    class User < ActiveRecord::Base
+#      acts_as_enum :status, :in => [ ['disable', '0', '冻结'], ['enable', '1', '激活'] ]
 #    end
 # 
 #    Also can usage alias enum_attr
@@ -27,29 +39,36 @@
 #      
 #    Will generate bellow:
 #      User::STATUS_DISABLE, User::STATUS_ENABLE, User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
-    
+
 module ActsAsEnum
   def self.included(base)
     base.extend ClassMethods
   end
   
   module ClassMethods
-    def acts_as_enum(attr, opts = { :in => [], :prefix => false })
+    def acts_as_enum(attr, options = { :in => [], :prefix => false })
       attr = attr.to_s
       plural_upcase_attr = attr.pluralize.upcase
-      enum = opts[:in]
+      enum = options[:in]
       
       rails "Can not load Rails" unless defined?(Rails)
-      rails "Options in can not be empty" if enum.blank?
-      rails "Options in must be an array object" unless enum.is_a?(Array)
+      rails "Options :in can not be empty" if enum.blank?
+      rails "Options :in must be an array object" unless enum.is_a?(Array)
       
+      is_key_value_enum = enum.first.size == 2 ? true : false
+
       # validates_inclusion_of attr, :in => enum.collect { |arr| arr[1] }, :allow_blank => true
 
-      const_set(plural_upcase_attr, enum.inject({}) { |hash, arr| hash[arr[1]] = arr[2].to_s; hash })
+      attr_options = enum.inject({}) do |hash, arr|
+        hash[is_key_value_enum ? arr.first : arr[1]] = arr.last.to_s
+        hash
+      end
+      const_set(plural_upcase_attr, attr_options)
       
       enum.each do |arr|
-        enum_name, attr_value = arr[0].to_s, arr[1]
-        method_name = opts[:prefix] ? "#{attr}_#{enum_name}" : enum_name
+        enum_name = arr.first.to_s.downcase
+        attr_value = is_key_value_enum ? arr.first : arr[1]
+        method_name = options[:prefix] ? "#{attr}_#{enum_name}" : enum_name
         
         const_set("#{method_name}".upcase, attr_value)
         
@@ -58,10 +77,11 @@ module ActsAsEnum
         else
           scope method_name.to_sym, where(["#{attr} = ?", attr_value])
         end
-        
+
         class_eval(%Q{
           def #{method_name}?
-            #{attr}.to_s == #{attr_value}.to_s
+            # #{attr}.to_s == #{method_name.upcase}
+            #{attr}.to_s == "#{attr_value}"
           end
         })
       end
@@ -72,7 +92,6 @@ module ActsAsEnum
         end
         
         def #{attr}_name
-          # #{plural_upcase_attr}.detect { |arr| arr[1] == #{attr} }[0] unless #{attr}.blank?
           #{plural_upcase_attr}[#{attr}] unless #{attr}.blank?
         end
       })

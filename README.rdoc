@@ -7,11 +7,23 @@
 
 == Usage
 
+  Table column type as Varchar or Varchar2
+  class User < ActiveRecord::Base
+    acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
+  end
+
+  Table column type as Integer
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
   end
 
+  Table column type as Varchar and Number
+  class User < ActiveRecord::Base
+    acts_as_enum :status, :in => [ ['disable', '0', '冻结'], ['enable', '1', '激活'] ]
+  end
+
   Also can usage alias enum_attr
+  enum_attr :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
   enum_attr :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
 
   
@@ -27,7 +39,7 @@
     
     
     If with option prefix is true: 
-      acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ], :prefix => true
+      acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ], :prefix => true
       
     Will generate bellow:
     
