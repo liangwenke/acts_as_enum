@@ -16,3 +16,6 @@
 
 1.0.1
  Options :in value is Array, can be have two or three elements
+
+1.0.2
+  Fixed a bug for #{boolean_column_attr}_name method

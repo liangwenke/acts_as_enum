@@ -92,6 +92,7 @@ module ActsAsEnum
         end
         
         def #{attr}_name
+          return #{plural_upcase_attr}[#{attr}] if #{attr}.is_a?(FalseClass)
           #{plural_upcase_attr}[#{attr}] unless #{attr}.blank?
         end
       })
