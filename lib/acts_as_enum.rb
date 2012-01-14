@@ -51,10 +51,16 @@ module ActsAsEnum
       plural_upcase_attr = attr.pluralize.upcase
       enum = options[:in]
       
-      rails "Can not load Rails" unless defined?(Rails)
-      rails "Options :in can not be empty" if enum.blank?
-      rails "Options :in must be an array object" unless enum.is_a?(Array)
-      
+      rails "Can not load Rails." unless defined?(Rails)
+      rails "Options :in can not be empty." if enum.blank?
+      rails "Options :in must be an object of Array or Hash." unless enum.is_a?(Array) or enum.is_a?(Hash)
+
+      if enum.is_a?(Hash)
+        enum = enum.to_a
+      elsif enum.is_a?(Array) and enum.first.is_a?(String)
+        enum = enum.inject([]) { |arr, obj| arr << [obj] * 2 }
+      end
+
       is_key_value_enum = enum.first.size == 2 ? true : false
 
       # validates_inclusion_of attr, :in => enum.collect { |arr| arr[1] }, :allow_blank => true

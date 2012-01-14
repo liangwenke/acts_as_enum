@@ -19,3 +19,6 @@
 
 1.0.2
   Fixed a bug for #{boolean_column_attr}_name method
+
+1.1.0
+  Option :in support Hash Object

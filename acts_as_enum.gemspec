@@ -5,11 +5,11 @@ version = File.read(File.expand_path("../VERSION",__FILE__)).strip
 Gem::Specification.new do |s|
   s.name = 'acts_as_enum'
   s.version = version
-  s.author = "LiangWenKe"
+  s.author = "Mike Liang"
   s.email = "liangwenke.com@gmail.com"
   s.homepage = "http://github.com/liangwenke/acts_as_enum"
   s.summary = 'Enum Attribute for Rails ActiveRecord'
-  s.description = '主要应用于有枚举类型属性的Model，这个插件会帮我们生成一些常用到的方法。'
+  s.description = 'For multiple values activerecord attributes. This gem have some very useful methods and constants for attribute.'
   
   s.files        = Dir["{lib,test}/**/*", "[A-Z]*", "init.rb"] - ["Gemfile.lock"]
   s.require_path = "lib"
