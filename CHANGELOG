@@ -22,3 +22,6 @@
 
 1.1.0
   Option :in support Hash Object
+
+1.1.1
+  Fix a bug for scope method
