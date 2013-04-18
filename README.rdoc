@@ -23,7 +23,7 @@ or, to install as a plugin:
 
 == Usage
 
-Table column type as Varchar or Varchar2
+Table column type as String
 
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
@@ -35,11 +35,18 @@ Table column type as Integer
     acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
   end
 
-Table column type as Varchar and Number
+Table column type as String and Number
 
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', '0', '冻结'], ['enable', '1', '激活'] ]
   end
+
+Table column type as Boolean
+
+  class User < ActiveRecord::Base
+    acts_as_enum :status, :in => [ ['disable', false, '冻结'], ['enable', true, '激活'] ]
+  end
+
 
 Also can usage alias enum_attr
 
