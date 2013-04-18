@@ -5,50 +5,66 @@
 如：枚举数组常量，每个元素的常量和布尔方法，属性的名字，Named scope方法
 
 
+== Getting Started
+
+In your Gemfile:
+
+  gem 'acts_as_enum'# Last officially released gem
+  # gem "acts_as_enum", :git => "git://github.com/liangwenke/acts_as_enum.git" # Track git repo
+
+or, to install as a gem:
+
+  gem install acts_as_enum
+
+or, to install as a plugin:
+
+  rails plugin install git://github.com/liangwenke/acts_as_enum.git
+
+
 == Usage
 
-  Table column type as Varchar or Varchar2
+Table column type as Varchar or Varchar2
+
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
   end
 
-  Table column type as Integer
+Table column type as Integer
+
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
   end
 
-  Table column type as Varchar and Number
+Table column type as Varchar and Number
+
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', '0', '冻结'], ['enable', '1', '激活'] ]
   end
 
-  Also can usage alias enum_attr
+Also can usage alias enum_attr
+
   enum_attr :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
   enum_attr :status, :in => [ ['disable', 0, '冻结'], ['enable', 1, '激活'] ]
 
-  
-  Will generate bellow:
-  
-    Constants: User::STATUSES, User::DISABLE, User::ENABLE
-    
-    Named scopes: User.enable, User.disable
 
-    Class methods: User.status_options
-    
-    Instance methods: user.status_name, user.enable?, user.disable?
-    
-    
-    If with option prefix is true: 
-      acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ], :prefix => true
-      
-    Will generate bellow:
-    
-      User::STATUS_DISABLE, User::STATUS_ENABLE, User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
+Will generate bellow:
+
+  Constants: User::STATUSES, User::DISABLE, User::ENABLE
+
+  Named scopes: User.enable, User.disable
+
+  Class methods: User.status_options
+
+  Instance methods: user.status_name, user.enable?, user.disable?
 
 
-== Install
+If with option prefix is true:
 
-  git clone git://github.com/liangwenke/acts_as_enum.git
+  acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ], :prefix => true
+
+Will generate bellow:
+
+  User::STATUS_DISABLE, User::STATUS_ENABLE, User.status_enable, User.status_disable, user.status_enable?, user.status_disable?
 
 
 == Note
