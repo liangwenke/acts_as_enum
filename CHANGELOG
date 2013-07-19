@@ -25,3 +25,6 @@
 
 1.1.1
   Fix a bug for scope method
+
+1.1.2
+  Support Rails 4

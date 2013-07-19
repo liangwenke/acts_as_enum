@@ -78,10 +78,12 @@ module ActsAsEnum
 
         const_set("#{method_name}".upcase, attr_value)
 
-        if Rails.version =~ /^2/
-          named_scope method_name.to_sym, :conditions => { attr.to_sym => attr_value }
-        else
+        if Rails.version =~ /^4/
+          scope method_name.to_sym, -> { where(["#{self.table_name}.#{attr} = ?", attr_value]) }
+        elsif Rails.version =~ /^3/
           scope method_name.to_sym, where(["#{self.table_name}.#{attr} = ?", attr_value])
+        else
+          named_scope method_name.to_sym, :conditions => { attr.to_sym => attr_value }
         end
 
         class_eval(%Q{
