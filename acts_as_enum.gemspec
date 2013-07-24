@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version                   = version
   spec.author                    = "Mike Liang"
   spec.email                     = "liangwenke.com@gmail.com"
-  spec.homepage                  = "http://github.com/liangwen ke/acts_as_enum"
+  spec.homepage                  = "http://github.com/liangwenke/acts_as_enum"
   spec.summary                   = 'Enum Attribute for Rails ActiveRecord'
   spec.description               = 'For multiple values activerecord attributes. This gem have some very useful methods and constants for attribute.'
   spec.license                   = 'MIT'
