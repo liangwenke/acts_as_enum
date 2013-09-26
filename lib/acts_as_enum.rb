@@ -51,9 +51,9 @@ module ActsAsEnum
       plural_upcase_attr = attr.pluralize.upcase
       enum = options[:in]
 
-      rails "Can not load Rails." unless defined?(Rails)
-      rails "Options :in can not be empty." if enum.blank?
-      rails "Options :in must be an object of Array or Hash." unless enum.is_a?(Array) or enum.is_a?(Hash)
+      raise "Can not load Rails." unless defined?(Rails)
+      raise "Options :in can not be empty." if enum.blank?
+      raise "Options :in must be an object of Array or Hash." unless enum.is_a?(Array) or enum.is_a?(Hash)
 
       if enum.is_a?(Hash)
         enum = enum.to_a
