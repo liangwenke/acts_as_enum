@@ -62,7 +62,7 @@ Will generate bellow:
 
   Class methods: User.status_options
 
-  Instance methods: user.status_name, user.enable?, user.disable?
+  Instance methods: user.status_name, user.enable?, user.disable?, user.enable!, user.disable!
 
 
 If with option prefix is true:
