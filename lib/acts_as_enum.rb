@@ -31,7 +31,7 @@
 #
 #      Class methods: User.status_options => [["冻结", 0], ["激活", 1]]
 #
-#      Instance methods: user.status_name, user.enable?, user.disable?
+#      Instance methods: user.status_name, user.enable?, user.disable?, user.enable!(update user.status to 1) and user.disable!(update user.status to 1)
 #
 #
 #    If with option prefix is true:
@@ -63,8 +63,6 @@ module ActsAsEnum
 
       is_key_value_enum = enum.first.size == 2 ? true : false
 
-      # validates_inclusion_of attr, :in => enum.collect { |arr| arr[1] }, :allow_blank => true
-
       attr_options = enum.inject({}) do |hash, arr|
         hash[is_key_value_enum ? arr.first : arr[1]] = arr.last.to_s
         hash
@@ -86,12 +84,15 @@ module ActsAsEnum
           named_scope method_name.to_sym, :conditions => { attr.to_sym => attr_value }
         end
 
-        class_eval(%Q{
-          def #{method_name}?
-            # #{attr}.to_s == #{method_name.upcase}
-            #{attr}.to_s == "#{attr_value}"
+        class_eval do
+          define_method "#{method_name}?" do
+            self[attr] == attr_value
           end
-        })
+
+          define_method "#{method_name}!" do
+            update_attribute(attr, attr_value) # use update_attribute method to skip validations
+          end
+        end
       end
 
       class_eval(%Q{
