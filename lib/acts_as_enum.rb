@@ -86,7 +86,7 @@ module ActsAsEnum
 
         class_eval do
           define_method "#{method_name}?" do
-            self[attr] == attr_value
+            public_send(attr) == attr_value
           end
 
           define_method "#{method_name}!" do
