@@ -61,8 +61,7 @@ module ActsAsEnum
         enum = enum.inject([]) { |arr, obj| arr << [obj] * 2 }
       end
 
-      is_key_value_enum = enum.first.size == 2 ? true : false
-
+      is_key_value_enum = enum.first.size == 2 
       attr_options = enum.inject({}) do |hash, arr|
         hash[is_key_value_enum ? arr.first : arr[1]] = arr.last.to_s
         hash
@@ -76,10 +75,8 @@ module ActsAsEnum
 
         const_set("#{method_name}".upcase, attr_value)
 
-        if Rails.version =~ /^4/
-          scope method_name.to_sym, -> { where(["#{self.table_name}.#{attr} = ?", attr_value]) }
-        elsif Rails.version =~ /^3/
-          scope method_name.to_sym, where(["#{self.table_name}.#{attr} = ?", attr_value])
+        if Rails.version =~ /^[34]/
+          scope method_name.to_sym, -> { where(attr => attr_value) }
         else
           named_scope method_name.to_sym, :conditions => { attr.to_sym => attr_value }
         end
