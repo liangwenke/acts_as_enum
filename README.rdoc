@@ -23,10 +23,26 @@ or, to install as a plugin:
 
 == Usage
 
+Default
+
+  class User < ActiveRecord::Base
+    enum_attr :status, :in => %w(disable, enable)
+  end
+
 Table column type as String
 
   class User < ActiveRecord::Base
     acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
+  end
+
+  Or
+
+  class User < ActiveRecord::Base
+    acts_as_enum :status, :in => { 'disable' => '冻结', { 'enable', '激活' }
+  end
+
+  class User < ActiveRecord::Base
+    enum_attr :status, :in => { 'disable' => '冻结', { 'enable', '激活' }
   end
 
 Table column type as Integer

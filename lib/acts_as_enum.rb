@@ -5,10 +5,17 @@
 #    options incldue :in, :prefix
 #    :in value as Array [ [value, label], ... ] or [ [special_method_name, value, label], ... ]
 #    :prefix value as true or false
+# 
+#    class User < ActiveRecord::Base
+#      acts_as_enum :status, :in => %w(disable, enable)
+#    end
 #
 #    table column status type is Varchar or Varchar2
 #    class User < ActiveRecord::Base
 #      acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
+#    end
+#    class User < ActiveRecord::Base
+#      acts_as_enum :status, :in => { 'disable' => '冻结', { 'enable', '激活' }
 #    end
 #
 #    and type is Integer or number of string
@@ -76,10 +83,8 @@ module ActsAsEnum
 
         const_set("#{method_name}".upcase, attr_value)
 
-        if Rails.version =~ /^4/
+        if Rails.version =~ /^[34]/
           scope method_name.to_sym, -> { where(["#{self.table_name}.#{attr} = ?", attr_value]) }
-        elsif Rails.version =~ /^3/
-          scope method_name.to_sym, where(["#{self.table_name}.#{attr} = ?", attr_value])
         else
           named_scope method_name.to_sym, :conditions => { attr.to_sym => attr_value }
         end
