@@ -80,7 +80,7 @@ module ActsAsEnum
 
         const_set(method_name.upcase, attr_value)
 
-        if Rails.version =~ /^[34]/
+        if Rails.version =~ /^[345]/
           scope method_name.to_sym, -> { where(attr => attr_value) }
         else
           named_scope method_name.to_sym, :conditions => { attr.to_sym => attr_value }
