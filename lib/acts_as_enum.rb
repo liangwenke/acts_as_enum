@@ -15,7 +15,7 @@
 #      acts_as_enum :status, :in => [ ['disable', '冻结'], ['enable', '激活'] ]
 #    end
 #    class User < ActiveRecord::Base
-#      acts_as_enum :status, :in => { 'disable' => '冻结', { 'enable', '激活' }
+#      acts_as_enum :status, :in => { 'disable' => '冻结', 'enable' => '激活' }
 #    end
 #
 #    and type is Integer or number of string
@@ -69,7 +69,11 @@ module ActsAsEnum
       end
 
       attr_options = enum.each_with_object({}) do |arr, hash|
-        hash[arr[-2]] = arr.last.to_s
+        if arr.count == 2
+          hash[arr.last.to_s] = arr.last.to_s
+        else
+          hash[arr[-2]] = arr.last.to_s
+        end
       end
       const_set(plural_upcase_attr, attr_options)
 
