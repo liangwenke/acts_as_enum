@@ -106,11 +106,34 @@ module ActsAsEnum
           #{plural_upcase_attr}.inject([]){ |arr, obj| arr << obj.reverse }
         end
 
+        def self.#{attr}_options_i18n
+          #{plural_upcase_attr}.inject([]) do |arr, obj|
+            #{enum}.each do |a|
+              obj[1] = ::ActsAsEnum::ClassMethods.translate_enum_symbol("#{self}", "#{attr}", a[0]) if a[1] == obj[0]
+            end
+            arr << obj.reverse
+          end
+        end
+
         def #{attr}_name
           return #{plural_upcase_attr}[#{attr}] if #{attr}.is_a?(FalseClass)
           #{plural_upcase_attr}[#{attr}] unless #{attr}.blank?
         end
+
+        def #{attr}_name_i18n
+          #{plural_upcase_attr}.each do |k, v|
+            #{enum}.each do |a|
+              #{plural_upcase_attr}[k] = ::ActsAsEnum::ClassMethods.translate_enum_symbol("#{self}", "#{attr}", a[0]) if a[1] == k
+            end
+          end
+          return #{plural_upcase_attr}[#{attr}] if #{attr}.is_a?(FalseClass)
+          #{plural_upcase_attr}[#{attr}] unless #{attr}.blank?
+        end
       })
+    end
+
+    def self.translate_enum_symbol(klass, attr_name, enum_symbol)
+      ::I18n.t("activerecord.attributes.#{klass.to_s.underscore.gsub('/', '.')}.#{attr_name.to_s.pluralize}.#{enum_symbol}", default: enum_symbol.humanize)
     end
 
     alias enum_attr acts_as_enum
