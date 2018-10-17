@@ -76,9 +76,9 @@ Will generate bellow:
 
   Named scopes: User.enable, User.disable
 
-  Class methods: User.status_options
+  Class methods: User.status_options, User.status_options_i18n
 
-  Instance methods: user.status_name, user.enable?, user.disable?, user.enable!, user.disable!
+  Instance methods: user.status_name, user.status_name_i18n, user.enable?, user.disable?, user.enable!, user.disable!
 
 
 If with option prefix is true:
