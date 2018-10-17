@@ -16,4 +16,7 @@ Gem::Specification.new do |spec|
   spec.require_path              = "lib"
   spec.rubyforge_project         = spec.name
   spec.required_rubygems_version = ">= 1.3.4"
+  
+  # spec.add_development_dependency "bundler", "~> 1.16"
+  # spec.add_development_dependency "rake", "~> 10.0"
 end
